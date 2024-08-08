@@ -2,10 +2,7 @@
 .classpath
 .project
 .settings/
-.bin/
-
-*.log
-
+src/bin/
+.idea/
 target/
-
 config.properties
