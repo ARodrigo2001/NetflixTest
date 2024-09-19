@@ -1,17 +1,16 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import core.Driver;
+import maps.LogoutMaps;
 
-public class LogoutPage extends BasePage {
+public class LogoutPage extends LogoutMaps {
     
-    private final By SELECTOR_LOGOUT_DIALOG = By.className("logout");
-
-    public LogoutPage(WebDriver driver) throws Exception {
-        super(driver);
+    public LogoutPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }
     
     public boolean isDisplayed() throws Exception {
-    	return elementExists(SELECTOR_LOGOUT_DIALOG);
+    	return txtLogout != null;
     }
 }

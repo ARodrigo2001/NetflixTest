@@ -1,51 +1,49 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-import resources.Utils;
+import core.Driver;
+import maps.ManageProfilesMaps;
+import resources.SeleniumUtils;
+import resources.XpathFormatter;
 
-public class ManageProfilesPage extends BasePage {
+public class ManageProfilesPage extends ManageProfilesMaps {
 
-	private final By SELECTOR_PROFILES_TITLE = By.className("list-profiles-container");
-	private final By SELECTOR_CREATE_PROFILE_BTN = By.className("addProfileIcon");
-	private final By SELECTOR_FINISHED_BTN = By.className("profile-button");
+	private SeleniumUtils mSeleniumUtils;
 
-	public ManageProfilesPage(WebDriver driver) throws Exception {
-		super(driver);
+	public ManageProfilesPage() throws Exception {
+		PageFactory.initElements(Driver.getDriver(), this);
+
+		mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
 	}
 
 	public boolean isDisplayed() throws Exception {
-
-		return elementExists(SELECTOR_PROFILES_TITLE);
+		return txtProfiles != null;
 	}
 		
 	public CreateProfilePage createProfile() throws Exception {
-		
-		findElement(SELECTOR_CREATE_PROFILE_BTN).click();
-		Thread.sleep(1000);
-		return new CreateProfilePage(mDriver);
+		btnCreateProfile.click();
+		return new CreateProfilePage();
 	}
 
 	public HomePage finish() throws Exception {
-		
-		findElement(SELECTOR_FINISHED_BTN).click();
-		Thread.sleep(1000);
-		return new HomePage(mDriver);
+		btnFinish.click();
+		return new HomePage();
 	}
 	
 	public boolean profileExists(String profileName) throws Exception {
 		
-		By profileXpath = By.xpath(Utils.formatProfileNameXpath(profileName));
-		return elementExists(profileXpath);
+		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));
+		return mSeleniumUtils.elementExists(profileXpath);
 	}
 	
 	public EditProfilePage editProfile(String profileName) throws Exception {
 		
-		By profileXpath = By.xpath(Utils.formatProfileNameXpath(profileName));;
-		findElement(profileXpath).click();
+		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));;
+		Driver.getDriver().findElement(profileXpath).click();
 		Thread.sleep(1000);
-		return new EditProfilePage(mDriver);
+		return new EditProfilePage();
 	}
 	
 	public ManageProfilesPage createProfile(String profileName) throws Exception {

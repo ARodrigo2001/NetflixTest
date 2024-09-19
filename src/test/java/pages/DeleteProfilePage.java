@@ -1,26 +1,23 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class DeleteProfilePage extends BasePage {
+import core.Driver;
+import maps.DeleteProfileMaps;
 
-	private final By SELECTOR_DELETE_PAGE= By.xpath("//*[@data-uia='profile-delete-page']");
-	private final By SELECTOR_DELETE_BTN = By.xpath("//*[@data-uia='profile-delete-button']");
+public class DeleteProfilePage extends DeleteProfileMaps {
 
-	public DeleteProfilePage(WebDriver driver) throws Exception {
-		super(driver);
+	public DeleteProfilePage() throws Exception {
+		PageFactory.initElements(Driver.getDriver(), this);
 	}
 
 	public boolean isDisplayed() throws Exception {
-
-		return elementExists(SELECTOR_DELETE_PAGE);
+		return elTitle != null;
 	}
 	
 	public ManageProfilesPage delete() throws Exception {
-		findElement(SELECTOR_DELETE_BTN).click();
-		Thread.sleep(1000);
-		return new ManageProfilesPage(mDriver);
+		btnDelete.click();
+		return new ManageProfilesPage();
 	}
 	
 }

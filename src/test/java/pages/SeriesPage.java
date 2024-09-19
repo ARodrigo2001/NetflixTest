@@ -1,32 +1,27 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class SeriesPage extends BasePage {
-	
-    private final By SELECTOR_SERIES_TITLE = By.xpath("//span[contains(@class, 'genreTitle') and text()='Séries']");
-    private final By SELECTOR_ROW_VIEW_BTN = By.className("aro-row-toggle");
-    private final By SELECTOR_GRID_VIEW_BTN = By.className("aro-grid-toggle");
+import core.Driver;
+import maps.SeriesMaps;
 
-    public SeriesPage(WebDriver driver) throws Exception {
-        super(driver);
+public class SeriesPage extends SeriesMaps {
+
+    public SeriesPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
-    	
-    	return elementExists(SELECTOR_SERIES_TITLE);
+    	return txtTitle != null;
     }        
     
     public SeriesPage setGridView() throws Exception {
-    	
-    	findElement(SELECTOR_GRID_VIEW_BTN).click();
+    	btnGridView.click();
     	return this;
     }
     
     public SeriesPage setRowView() throws Exception {
-    	
-    	findElement(SELECTOR_ROW_VIEW_BTN).click();
+    	btnRowView.click();
     	return this;
     }   
 }

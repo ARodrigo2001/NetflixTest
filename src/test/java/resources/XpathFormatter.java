@@ -1,6 +1,6 @@
 package resources;
 
-public class Utils {
+public class XpathFormatter {
 		
 	public static String formatMovieXpath(String movieName) {
 		return String.format("//*[@aria-label='%s']", movieName);

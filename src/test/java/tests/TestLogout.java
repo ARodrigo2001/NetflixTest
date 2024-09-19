@@ -2,38 +2,32 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import driver.Driver;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.LogoutPage;
-
-import org.openqa.selenium.WebDriver;
+import core.Driver;
 
 public class TestLogout {
-    
-    private static WebDriver mDriver;
-    
-    @BeforeClass
-    public static void setUp() throws Exception {
-        mDriver = Driver.startDriver();
-        new LoginPage(mDriver).login();
+        
+    @Before
+    public void setUp() throws Exception {
+        Driver.startDriver();
+        new LoginPage().login();
     }
     
     @Test
     public void testLogout() throws Exception {
-    	LogoutPage logoutPage = new HomePage(mDriver)
+    	LogoutPage logoutPage = new HomePage()
     	.launchAccount()
     	.signOut();
-    	
     	assertTrue(logoutPage.isDisplayed());
     } 
     
-    @AfterClass
-    public static void tearDown() throws Exception {
-    	mDriver.quit();
+    @After
+    public void tearDown() throws Exception {
+    	Driver.stopDriver();
     }
 }

@@ -2,10 +2,9 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import driver.Driver;
 import pages.HomePage;
 import pages.IdiomNavigationPage;
 import pages.LoginPage;
@@ -14,71 +13,68 @@ import pages.MoviesPage;
 import pages.MyListPage;
 import pages.NewsPage;
 import pages.SeriesPage;
-
-import org.openqa.selenium.WebDriver;
+import core.Driver;
 
 public class TestNavigation {
-	
-	private static WebDriver mDriver;
         
-    @BeforeClass
-    public static void setUp() throws Exception {
-    	mDriver = Driver.startDriver();
+    @Before
+    public void setUp() throws Exception {
+    	Driver.startDriver();
 
-        new LoginPage(mDriver).login();
+        new LoginPage().login();
     }
     
     @Test
     public void testNavigateHome() throws Exception {
-    	HomePage homePage = new HomePage(mDriver);
+    	HomePage homePage = new HomePage();
     	assertTrue(homePage.isDisplayed());
     } 
     
     @Test
     public void testNavigateSeries() throws Exception {
-    	SeriesPage seriesPage = new HomePage(mDriver)
+    	SeriesPage seriesPage = new HomePage()
     	.launchSeriesTab();
     	assertTrue(seriesPage.isDisplayed());
     } 
     
     @Test
     public void testNavigateMovies() throws Exception {
-    	MoviesPage moviesPage = new HomePage(mDriver)
+    	MoviesPage moviesPage = new HomePage()
     	.launchMoviesTab();
     	assertTrue(moviesPage.isDisplayed());
     }
     
     @Test
     public void testNavigateNews() throws Exception {
-    	NewsPage newsPage = new HomePage(mDriver)
+    	NewsPage newsPage = new HomePage()
     	.launchNewsTab();
     	assertTrue(newsPage.isDisplayed());
     } 
     
     @Test
     public void testNavigateMyList() throws Exception {
-    	MyListPage myListPage = new HomePage(mDriver)
+    	MyListPage myListPage = new HomePage()
     	.launchMyListTab();
     	assertTrue(myListPage.isDisplayed());
     } 
     
     @Test
     public void testNavigateIdiomNavigation() throws Exception {
-    	IdiomNavigationPage idiomNavigationPage = new HomePage(mDriver)
+    	IdiomNavigationPage idiomNavigationPage = new HomePage()
     	.launchIdiomNavigationTab();
     	assertTrue(idiomNavigationPage.isDisplayed());
     } 
     
     @Test
     public void testNavigateManageProfiles() throws Exception {
-    	ManageProfilesPage manageProfilesPage = new HomePage(mDriver)
+    	ManageProfilesPage manageProfilesPage = new HomePage()
     			.launchAccount().manageProfiles();
     	assertTrue(manageProfilesPage.isDisplayed());
     	manageProfilesPage.finish();
     }
     
-    @AfterClass
-    public static void tearDown() throws Exception {
-    	mDriver.quit();
+    @After
+    public void tearDown() throws Exception {
+    	Driver.stopDriver();
     }
 }

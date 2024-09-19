@@ -1,34 +1,29 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class AccountDropdownPage extends BasePage {
-	
-   private final By SELECTOR_DROPDOWN = By.className("account-drop-down");
-   private final By SELECTOR_SIGN_OUT_BTN = By.className("sign-out-links");
-   
-   private final String QUERY_CLICK_MANAGE_PROFILES = "document.querySelector(\".account-links\").children[0].children[0].click()";
+import core.Driver;
+import maps.AccountDropdownMaps;
 
-    public AccountDropdownPage(WebDriver driver) throws Exception {
-        super(driver);
+public class AccountDropdownPage extends AccountDropdownMaps {
+
+    public AccountDropdownPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
-    	
-    	return elementExists(SELECTOR_DROPDOWN);
+    	return btnDropdown != null;
     }   
     
 	public ManageProfilesPage manageProfiles() throws Exception {
 		
-		mJs.executeScript(QUERY_CLICK_MANAGE_PROFILES);
-		Thread.sleep(1000);
-		return new ManageProfilesPage(mDriver);
+		btnManageProfiles.click();
+		//mJs.executeScript(QUERY_CLICK_MANAGE_PROFILES);
+		return new ManageProfilesPage();
 	}
 	
 	public LogoutPage signOut() throws Exception {
-		
-		findElement(SELECTOR_SIGN_OUT_BTN).click();
-		return new LogoutPage(mDriver);
+		btnSignOut.click();
+		return new LogoutPage();
 	}	
 }

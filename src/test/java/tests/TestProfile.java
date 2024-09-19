@@ -3,27 +3,23 @@ package tests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import driver.Driver;
 import pages.LoginPage;
 import pages.ManageProfilesPage;
-
-import org.openqa.selenium.WebDriver;
+import core.Driver;
 
 public class TestProfile {
-	
-	private static WebDriver mDriver;
         
     private static final String PROFILE_NAME= "Test Profile";
     private static final String PROFILE_RENAME= "Test Profile Renaming";
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-    	mDriver = Driver.startDriver();
+    @Before
+    public void setUp() throws Exception {
+    	Driver.startDriver();
 
-    	new LoginPage(mDriver)
+    	new LoginPage()
           .login()
           .launchAccount()
           .manageProfiles();
@@ -32,13 +28,13 @@ public class TestProfile {
     @Test
     public void deleteProfile() throws Exception {
     	
-    	ManageProfilesPage manageProfilesPage = new ManageProfilesPage(mDriver);
+    	ManageProfilesPage manageProfilesPage = new ManageProfilesPage();
     	
     	if (!manageProfilesPage.profileExists(PROFILE_NAME)) {
             manageProfilesPage.createProfile(PROFILE_NAME);
     	}
     	 
-      	boolean isProfileAdded = new ManageProfilesPage(mDriver)
+      	boolean isProfileAdded = new ManageProfilesPage()
     	.editProfile(PROFILE_NAME)
     	.delete()
     	.delete()
@@ -50,13 +46,13 @@ public class TestProfile {
     @Test
     public void createProfile() throws Exception {
     	
- 	ManageProfilesPage manageProfilesPage = new ManageProfilesPage(mDriver);
+ 	ManageProfilesPage manageProfilesPage = new ManageProfilesPage();
     	
     	if (manageProfilesPage.profileExists(PROFILE_NAME)) {
             manageProfilesPage.deleteProfile(PROFILE_NAME);
     	}
     	
-       	boolean isProfileAdded = new ManageProfilesPage(mDriver)
+       	boolean isProfileAdded = new ManageProfilesPage()
     	.createProfile()
     	.setName(PROFILE_NAME)
     	.finish()
@@ -68,12 +64,12 @@ public class TestProfile {
     @Test
     public void renameProfile() throws Exception {
     	
-    	ManageProfilesPage manageProfilesPage = new ManageProfilesPage(mDriver);
+    	ManageProfilesPage manageProfilesPage = new ManageProfilesPage();
     	if (!manageProfilesPage.profileExists(PROFILE_NAME)) {
     		manageProfilesPage.createProfile(PROFILE_NAME);
     	}
     	
-       	boolean isProfileAdded = new ManageProfilesPage(mDriver)
+       	boolean isProfileAdded = new ManageProfilesPage()
     	.editProfile(PROFILE_NAME)
     	.setName(PROFILE_RENAME)
     	.save()
@@ -84,15 +80,13 @@ public class TestProfile {
     	manageProfilesPage.deleteProfile(PROFILE_RENAME);
     } 
             
-    @AfterClass
-    public static void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
     	
-       	ManageProfilesPage manageProfilesPage = new ManageProfilesPage(mDriver);
+       	ManageProfilesPage manageProfilesPage = new ManageProfilesPage();
     	if (manageProfilesPage.profileExists(PROFILE_RENAME)) {
     		manageProfilesPage.deleteProfile(PROFILE_RENAME);
     	}    	
-    	mDriver.quit();
-    	
-    	
+    	Driver.stopDriver();    	
     }
 }

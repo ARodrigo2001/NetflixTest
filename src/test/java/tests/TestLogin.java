@@ -6,27 +6,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import driver.Driver;
 import pages.HomePage;
 import pages.LoginPage;
 import resources.Credentials;
 
-import org.openqa.selenium.WebDriver;
+import core.Driver;
 
 public class TestLogin {
     
-    private WebDriver mDriver;
     private Credentials mCredentials;
    
     @Before
     public void setUp() throws Exception {
-        mDriver = Driver.startDriver();     
+        Driver.startDriver();     
         mCredentials = new Credentials();
     }
     
     @Test
     public void testLoginWithNoEmail() throws Exception {
-    	LoginPage loginPage = new LoginPage(mDriver)
+    	LoginPage loginPage = new LoginPage()
     			.setPassword(mCredentials.getValidPassword())
     			.tapLoginWithInvalidCredentials();
 
@@ -35,7 +33,7 @@ public class TestLogin {
     
     @Test
     public void testLoginWithNoPassword() throws Exception {
-    	LoginPage loginPage = new LoginPage(mDriver)
+    	LoginPage loginPage = new LoginPage()
     			.setEmail(mCredentials.getValidEmail())
     			.tapLoginWithInvalidCredentials();
 
@@ -44,7 +42,7 @@ public class TestLogin {
     
     @Test
     public void testLoginWithInvalidEmail() throws Exception {
-    	LoginPage loginPage = new LoginPage(mDriver)
+    	LoginPage loginPage = new LoginPage()
     			.setEmail(mCredentials.getInvalidEmail())
     			.setPassword(mCredentials.getValidPassword())
     			.tapLoginWithInvalidCredentials();
@@ -54,7 +52,7 @@ public class TestLogin {
     
     @Test
     public void testLoginWithInvalidPassword() throws Exception {
-    	LoginPage loginPage = new LoginPage(mDriver)
+    	LoginPage loginPage = new LoginPage()
     			.setEmail(mCredentials.getValidEmail())
     			.setPassword(mCredentials.getInvalidPassword())
     			.tapLoginWithInvalidCredentials();
@@ -65,7 +63,7 @@ public class TestLogin {
     @Test
     public void testLoginWithValidCredentials() throws Exception {
    	
-    	HomePage homePage = new LoginPage(mDriver)
+    	HomePage homePage = new LoginPage()
     			.setEmail(mCredentials.getValidEmail())
     			.setPassword(mCredentials.getValidPassword())
     			.tapLoginWithValidCredentials();
@@ -75,6 +73,6 @@ public class TestLogin {
         
     @After
     public void tearDown() throws Exception {
-    	mDriver.quit();
+    	Driver.stopDriver();
     }
 }

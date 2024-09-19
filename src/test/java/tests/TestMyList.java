@@ -3,61 +3,58 @@ package tests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
-import driver.Driver;
+import org.junit.runners.MethodSorters;
+
 import pages.HomePage;
 import pages.LoginPage;
+import resources.SeleniumUtils;
+import core.Driver;
 
-import org.openqa.selenium.WebDriver;
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestMyList {
-	
-	private static WebDriver mDriver;
-        
-    // Target movie name
-    private final String MOVIE_NAME= "Breaking Bad";
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-    	mDriver = Driver.startDriver();
+	private SeleniumUtils mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
+	private final String MOVIE_NAME= "Breaking Bad";
 
-        new LoginPage(mDriver).login();
+    @Before
+    public void setUp() throws Exception {
+    	Driver.startDriver();
+
+        new LoginPage().login();
     }
     
     @Test
     public void testAddMovieToList() throws Exception {
-    	boolean isMovieAdded = new HomePage(mDriver)
+		new HomePage()
     	.launchHomeTab()
     	.launchSearch()
     	.inputSearchText(MOVIE_NAME)
     	.openMovieInfo(MOVIE_NAME)
     	.addToList()
     	.close()
-    	.launchMyListTab()
-    	.movieExists(MOVIE_NAME);
-    	
-    	assertTrue(isMovieAdded);
+    	.launchMyListTab();
+    	assertTrue(mSeleniumUtils.movieExists(MOVIE_NAME));
     } 
     
     @Test
     public void testRemoveMovieFromList() throws Exception {
-    	boolean isMovieAdded = new HomePage(mDriver)
+    	new HomePage()
     	.launchHomeTab()
     	.launchSearch()
     	.inputSearchText(MOVIE_NAME)
     	.openMovieInfo(MOVIE_NAME)
     	.removeFromList()
     	.close()
-    	.launchMyListTab()
-    	.movieExists(MOVIE_NAME);
-    	
-    	assertFalse(isMovieAdded);
+    	.launchMyListTab();    	
+    	assertFalse(mSeleniumUtils.movieExists(MOVIE_NAME));
     } 
         
-    @AfterClass
-    public static void tearDown() throws Exception {
-    	mDriver.quit();
+    @After
+    public void tearDown() throws Exception {
+    	Driver.stopDriver();
     }
 }

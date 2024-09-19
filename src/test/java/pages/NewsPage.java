@@ -1,18 +1,16 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import core.Driver;
+import maps.NewsMaps;
 
-public class NewsPage extends BasePage {
+public class NewsPage extends NewsMaps {
 	
-   private final By SELECTOR_NEWS_TITLE = By.xpath("//div[contains(@class, 'row-header-title') and text()='Novidades na Netflix']");
-
-    public NewsPage(WebDriver driver) throws Exception {
-        super(driver);
+    public NewsPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
-    	
-    	return elementExists(SELECTOR_NEWS_TITLE);
+    	return txtTitle != null;
     }          
 }

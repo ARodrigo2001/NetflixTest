@@ -1,18 +1,16 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import core.Driver;
+import maps.IdiomNavigationMaps;
 
-public class IdiomNavigationPage extends BasePage {
-	
-    private final By SELECTOR_IDIOM_NAVIGATION_TITLE = By.xpath("//div[contains(@class, 'title') and text()='Navegar por idiomas']");
+public class IdiomNavigationPage extends IdiomNavigationMaps {
 
-    public IdiomNavigationPage(WebDriver driver) throws Exception {
-        super(driver);
+    public IdiomNavigationPage( ) throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
-    	
-    	return elementExists(SELECTOR_IDIOM_NAVIGATION_TITLE);
+    	return txtTitle != null;
     }
 }

@@ -1,41 +1,37 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class MovieInfoPage extends BasePage {
-    
-    private final By SELECTOR_INFO_DIALOG = By.className("previewModal");
-    private final By SELECTOR_PLAY_BTN = By.className("playLink");
-    private final By SELECTOR_CLOSE_BTN= By.className("previewModal-close");
-    private final By SELECTOR_ADD_TO_LIST= By.xpath("//*[@data-uia='add-to-my-list']");
-    private final By SELECTOR_REMOVE_FROM_LIST= By.xpath("//*[@data-uia='add-to-my-list-added']");
+import core.Driver;
+import maps.MovieInfoMaps;
 
-    public MovieInfoPage(WebDriver driver) throws Exception {
-        super(driver);
+public class MovieInfoPage extends MovieInfoMaps {
+
+    public MovieInfoPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }
     
     public boolean isDisplayed() throws Exception {
-		return elementExists(SELECTOR_INFO_DIALOG);
+		return txtMovieInfo != null;
     }  
     
     public WatchPage play() throws Exception {
-    	findElement(SELECTOR_PLAY_BTN).click();
-    	return new WatchPage(mDriver);
+    	btnPlay.click();
+    	return new WatchPage();
     }
     
     public HomePage close() throws Exception {
-    	findElement(SELECTOR_CLOSE_BTN).click();
-    	return new HomePage(mDriver);
+    	btnClose.click();
+    	return new HomePage();
     }
     
     public MovieInfoPage addToList() throws Exception {
-    	findElement(SELECTOR_ADD_TO_LIST).click();
+    	btnAddToList.click();
     	return this;
     }
     
     public MovieInfoPage removeFromList() throws Exception {
-    	findElement(SELECTOR_REMOVE_FROM_LIST).click();
+    	btnRemoveFromList.click();
     	return this;
     }
 }

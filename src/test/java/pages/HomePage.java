@@ -1,119 +1,95 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 
-import resources.Utils;
+import core.Driver;
+import maps.HomeMaps;
+import resources.XpathFormatter;
 
-public class HomePage extends BasePage {
+public class HomePage extends HomeMaps {
 
-	private final By SELECTOR_HOME_BTN = By.className("icon-logoUpdate");
-	private final By SELECTOR_SEARCH_BTN = By.className("searchTab");
+	protected Actions mActions;
+    protected JavascriptExecutor mJs;
 
-	private final By SELECTOR_SEARCH_FIELD = By.id("searchInput");
-	private final By SELECTOR_MOVIE_NOT_FOUND = By.xpath("//*[contains(text(),'Não encontramos resultados para')]");
-	private final By SELECTOR_ACCOUNT_BTN = By.className("account-dropdown-button");
-
-	private final By SELECTOR_TAB_HOME_BTN = By.xpath("//*[text()='Início']");
-	private final By SELECTOR_TAB_SERIES_BTN = By.xpath("//*[text()='Séries']");
-	private final By SELECTOR_TAB_MOVIES_BTN = By.xpath("//*[text()='Filmes']");
-	private final By SELECTOR_TAB_NEWS_BTN = By.xpath("//*[text()='Bombando']");
-	private final By SELECTOR_TAB_MY_LIST_BTN = By.xpath("//*[text()='Minha lista']");
-	private final By SELECTOR_TAB_IDIOM_NAVIGATION_BTN = By.xpath("//*[text()='Navegar por idiomas']");
-
-	public HomePage(WebDriver driver) throws Exception {
-		super(driver);
+	public HomePage() throws Exception {
+		PageFactory.initElements(Driver.getDriver(), this);
+		this.mActions = new Actions(Driver.getDriver());
+        this.mJs = (JavascriptExecutor) Driver.getDriver();
 	}
 
 	public boolean isDisplayed() throws Exception {
-
-		return elementExists(SELECTOR_HOME_BTN);
+		return btnHome != null;
 	}
 
 	public HomePage inputSearchText(String searchText) throws Exception {
-
-		WebElement searchField = findElement(SELECTOR_SEARCH_FIELD);
-		setText(searchField, searchText);
+		inpSearch.sendKeys(searchText);
 		return this;
 	}
 
 	public HomePage launchHomeTab() throws Exception {
-
-		findElement(SELECTOR_TAB_HOME_BTN).click();
-		Thread.sleep(1000);
+		btnHome.click();
 		return this;
 	}
 
 	public SeriesPage launchSeriesTab() throws Exception {
-
-		findElement(SELECTOR_TAB_SERIES_BTN).click();
-		Thread.sleep(1000);
-		return new SeriesPage(mDriver);
+		tabSeries.click();
+		return new SeriesPage();
 	}
 
 	public MoviesPage launchMoviesTab() throws Exception {
-
-		findElement(SELECTOR_TAB_MOVIES_BTN).click();
-		Thread.sleep(1000);
-		return new MoviesPage(mDriver);
+		tabMovies.click();
+		return new MoviesPage();
 	}
 
 	public NewsPage launchNewsTab() throws Exception {
-
-		findElement(SELECTOR_TAB_NEWS_BTN).click();
-		Thread.sleep(1000);
-		return new NewsPage(mDriver);
+		tabNews.click();
+		return new NewsPage();
 	}
 
 	public MyListPage launchMyListTab() throws Exception {
-
-		findElement(SELECTOR_TAB_MY_LIST_BTN).click();
-		Thread.sleep(1000);
-		return new MyListPage(mDriver);
+		tabMyList.click();
+		return new MyListPage();
 	}
 
 	public IdiomNavigationPage launchIdiomNavigationTab() throws Exception {
-
-		findElement(SELECTOR_TAB_IDIOM_NAVIGATION_BTN).click();
-		Thread.sleep(1000);
-		return new IdiomNavigationPage(mDriver);
+		tabIdiomNavigation.click();
+		return new IdiomNavigationPage();
 	}
 
 	public HomePage launchSearch() throws Exception {
-		
-		findElement(SELECTOR_SEARCH_BTN).click();
+		btnSearch.click();
 		return this;
 	}
 
 	public AccountDropdownPage launchAccount() throws Exception {
-		
-		findElement(SELECTOR_ACCOUNT_BTN).click();
-		return new AccountDropdownPage(mDriver);
+		btnAccount.click();
+		return new AccountDropdownPage();
 	}
-
 
 	public MovieInfoPage openMovieInfo(String movieName) throws Exception {
 
 		WebElement movieElement = findMovieElement(movieName);
-		click(movieElement);
-		return new MovieInfoPage(mDriver);
+		movieElement.click();
+		return new MovieInfoPage();
 	}
 
 	public HomePage hoverOnMovie(String movieName) throws Exception {
 
 		WebElement movieElement = findMovieElement(movieName);
-		hoverOnElement(movieElement);
+		mActions.moveToElement(movieElement).perform();
 		return this;
 	}
 
 	private WebElement findMovieElement(String movieName) throws Exception {
-
-		String xpath = Utils.formatMovieXpath(movieName);
-		return findElement(By.xpath(xpath));
+		String xpath = XpathFormatter.formatMovieXpath(movieName);
+		return Driver.getDriver().findElement(By.xpath(xpath));
 	}
 
 	public boolean IsMovieNotFoundAlertDisplayed() throws Exception {
-		return elementExists(SELECTOR_MOVIE_NOT_FOUND);
+		return txtMovieNotFound != null;
 	}
 }

@@ -1,19 +1,19 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class MyListPage extends BasePage {
+import core.Driver;
+import maps.MyListMaps;
+
+public class MyListPage extends MyListMaps {
 	
-    private final By SELECTOR_MY_LIST_TITLE = By.xpath("//div[contains(@class, 'title') and text()='Minha lista']");
-
-    public MyListPage(WebDriver driver) throws Exception {
-        super(driver);
+    public MyListPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
     	
-    	return elementExists(SELECTOR_MY_LIST_TITLE);
+    	return txtTitle != null;
     }
           
 }

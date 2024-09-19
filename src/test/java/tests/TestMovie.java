@@ -2,41 +2,39 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import driver.Driver;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.WatchPage;
+import resources.SeleniumUtils;
+import core.Driver;
 
-import org.openqa.selenium.WebDriver;
+public class TestMovie {	        
 
-public class TestMovie {
-	
-	private static WebDriver mDriver;
-        
-    // Target movie name
     private final String VALID_MOVIE_NAME= "Breaking Bad";
     private final String INVALID_MOVIE_NAME= "THIS MOVIE DOES NOT EXIST";
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-    	mDriver = Driver.startDriver();
-        new LoginPage(mDriver).login();
+    @Before
+    public void setUp() throws Exception {
+    	Driver.startDriver();
+        new LoginPage().login();
     }
     
     @Test
     public void testSearchValidMovie() throws Exception {
-    	HomePage homePage = new HomePage(mDriver)
+    	new HomePage()
     	.launchSearch()
     	.inputSearchText(VALID_MOVIE_NAME);
-    	assertTrue(homePage.movieExists(VALID_MOVIE_NAME));
+
+        SeleniumUtils seleniumUtils = new SeleniumUtils(Driver.getDriver());
+    	assertTrue(seleniumUtils.movieExists(VALID_MOVIE_NAME));
     } 
     
     @Test
     public void testSearchInvalidMovie() throws Exception {
-    	HomePage homePage = new HomePage(mDriver)
+    	HomePage homePage = new HomePage()
     	.launchSearch()
     	.inputSearchText(INVALID_MOVIE_NAME);
     	assertTrue(homePage.IsMovieNotFoundAlertDisplayed());
@@ -44,7 +42,7 @@ public class TestMovie {
     
     @Test
     public void testPlayMovie() throws Exception {
-    	WatchPage watchPage = new HomePage(mDriver)
+    	WatchPage watchPage = new HomePage()
     			.launchHomeTab()
     			.launchSearch()
     			.inputSearchText(VALID_MOVIE_NAME)
@@ -55,8 +53,8 @@ public class TestMovie {
     	watchPage.back().close().launchHomeTab();
     } 
     
-    @AfterClass
-    public static void tearDown() throws Exception {
-    	mDriver.quit();
+    @After
+    public void tearDown() throws Exception {
+    	Driver.stopDriver();
     }
 }

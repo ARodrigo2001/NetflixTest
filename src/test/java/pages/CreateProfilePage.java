@@ -1,35 +1,27 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
-public class CreateProfilePage extends BasePage {
-	
-    private final By SELECTOR_CREATE_PROFILE_PAGE = By.className("profile-create-page");
-    private final By SELECTOR_PROFILE_NAME_FIELD= By.id("add-profile-name");
-    private final By SELECTOR_CONTINUE_BTN = By.xpath("//*[@data-uia='profile-create-continue-button']");
+import core.Driver;
+import maps.CreateProfileMaps;
 
-    public CreateProfilePage(WebDriver driver) throws Exception {
-        super(driver);
+public class CreateProfilePage extends CreateProfileMaps {
+
+    public CreateProfilePage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }  
     
     public boolean isDisplayed() throws Exception {
-    	
-    	return elementExists(SELECTOR_CREATE_PROFILE_PAGE);
+    	return txtCreateProfile != null;
     }
     
     public CreateProfilePage setName(String name) throws Exception {
-    	
-    	WebElement nameField = findElement(SELECTOR_PROFILE_NAME_FIELD);
-    	setText(nameField, name);
+        inpProfileName.sendKeys(name);
     	return this;
     }
     
     public ManageProfilesPage finish() throws Exception {
-    	findElement(SELECTOR_CONTINUE_BTN).click();
-    	Thread.sleep(1000);
-    	return new ManageProfilesPage(mDriver);
+    	btnContinue.click();
+    	return new ManageProfilesPage();
     }
-    
 }

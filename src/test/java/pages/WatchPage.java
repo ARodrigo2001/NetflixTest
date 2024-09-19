@@ -1,24 +1,22 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class WatchPage extends BasePage {
-    
-    private final By SELECTOR_VIDEO = By.className("watch-video");
-	private final By SELECTOR_BACK_BTN = By.xpath("//*[@data-icon='ArrowLeftStandard']");
+import core.Driver;
+import maps.WatchMaps;
 
-    public WatchPage(WebDriver driver) throws Exception {
-        super(driver);
+public class WatchPage extends WatchMaps {
+
+    public WatchPage() throws Exception {
+        PageFactory.initElements(Driver.getDriver(), this);
     }
     
     public boolean isDisplayed() throws Exception {
-    	return elementExists(SELECTOR_VIDEO);
+    	return elVideo != null;
     }  
     
     public MovieInfoPage back() throws Exception {
-    	findElement(SELECTOR_BACK_BTN).click();
-    	Thread.sleep(1000);
-		return new MovieInfoPage(mDriver);
+    	btnBack.click();
+		return new MovieInfoPage();
     }
 }
