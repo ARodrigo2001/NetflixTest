@@ -13,23 +13,23 @@ import core.Driver;
 
 public class TestMovie {	        
 
-    private final String VALID_MOVIE_NAME= "Breaking Bad";
-    private final String INVALID_MOVIE_NAME= "THIS MOVIE DOES NOT EXIST";
+    private final String VALID_MOVIE_NAME = "Breaking Bad";
+    private final String INVALID_MOVIE_NAME = "THIS MOVIE DOES NOT EXIST";
 
     @Before
     public void setUp() throws Exception {
     	Driver.startDriver();
-        new LoginPage().login();
+        new LoginPage()
+                .login()
+                .launchProfile("Arthur");
     }
     
     @Test
     public void testSearchValidMovie() throws Exception {
-    	new HomePage()
+    	HomePage homePage = new HomePage()
     	.launchSearch()
     	.inputSearchText(VALID_MOVIE_NAME);
-
-        SeleniumUtils seleniumUtils = new SeleniumUtils(Driver.getDriver());
-    	assertTrue(seleniumUtils.movieExists(VALID_MOVIE_NAME));
+    	assertTrue(homePage.movieExists(VALID_MOVIE_NAME));
     } 
     
     @Test

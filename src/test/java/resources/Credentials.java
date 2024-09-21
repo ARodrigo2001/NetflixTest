@@ -2,6 +2,8 @@ package resources;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class Credentials {
@@ -14,7 +16,7 @@ public class Credentials {
     public Credentials() throws Exception {
         	
     	Properties properties = new Properties();
-    	InputStream fileContent = new FileInputStream("src/test/java/resources/config.properties");
+    	InputStream fileContent = Files.newInputStream(Paths.get("src/test/java/resources/config.properties"));
     
     	// Read config.properties
     	properties.load(fileContent);

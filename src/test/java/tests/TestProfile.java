@@ -21,6 +21,7 @@ public class TestProfile {
 
     	new LoginPage()
           .login()
+		  .launchProfile("Arthur")
           .launchAccount()
           .manageProfiles();
     }

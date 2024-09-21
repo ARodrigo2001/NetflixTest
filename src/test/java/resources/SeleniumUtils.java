@@ -8,30 +8,27 @@ import org.openqa.selenium.interactions.Actions;
 
 public class SeleniumUtils {
 
-    private WebDriver driver;
-    private Actions mActions;
+    private final WebDriver driver;
+    private final Actions mActions;
 
     public SeleniumUtils(WebDriver driver) {
         this.driver = driver;
         this.mActions = new Actions(driver);
     }
 
-    public boolean elementExists(By selector) {
-	try {
-    		driver.findElement(selector);
-    		return true;
-    	} catch (NoSuchElementException e) {
-    		return false;
-    	}
+    public boolean elementExistsBySelector(By selector) {
+	    return !driver.findElements(selector).isEmpty();
     }
 
-    public void hoverOnElement(WebElement element) throws Exception {
-    	mActions.moveToElement(element).perform();
-    	Thread.sleep(4000);
+    public boolean elementExists(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
-    public boolean movieExists(String movieName) throws Exception {
-		String movieXpath = XpathFormatter.formatMovieXpath(movieName);
-		return elementExists(By.xpath(movieXpath));
-	}  
+    public void moveToElement(WebElement element) {
+        mActions.moveToElement(element).perform();
+    }
 }

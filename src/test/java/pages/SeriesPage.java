@@ -4,15 +4,19 @@ import org.openqa.selenium.support.PageFactory;
 
 import core.Driver;
 import maps.SeriesMaps;
+import resources.SeleniumUtils;
 
 public class SeriesPage extends SeriesMaps {
 
+    private final SeleniumUtils mSeleniumUtils;
+
     public SeriesPage() throws Exception {
         PageFactory.initElements(Driver.getDriver(), this);
-    }  
+        mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
+    }
     
     public boolean isDisplayed() throws Exception {
-    	return txtTitle != null;
+    	return mSeleniumUtils.elementExists(txtTitle);
     }        
     
     public SeriesPage setGridView() throws Exception {

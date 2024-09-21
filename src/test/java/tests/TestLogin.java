@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pages.HomePage;
 import pages.LoginPage;
+import pages.ManageProfilesPage;
 import resources.Credentials;
 
 import core.Driver;
@@ -63,12 +63,11 @@ public class TestLogin {
     @Test
     public void testLoginWithValidCredentials() throws Exception {
    	
-    	HomePage homePage = new LoginPage()
+    	ManageProfilesPage profilesPage = new LoginPage()
     			.setEmail(mCredentials.getValidEmail())
     			.setPassword(mCredentials.getValidPassword())
     			.tapLoginWithValidCredentials();
-
-    	assertTrue(homePage.isDisplayed());
+    	assertTrue(profilesPage.isDisplayed());
     }
         
     @After

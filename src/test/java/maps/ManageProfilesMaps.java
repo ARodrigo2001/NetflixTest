@@ -12,5 +12,4 @@ public class ManageProfilesMaps {
 
     @FindBy(className = "profile-button")
     protected WebElement btnFinish;
-    
 }

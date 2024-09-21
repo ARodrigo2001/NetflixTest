@@ -10,7 +10,7 @@ import resources.XpathFormatter;
 
 public class ManageProfilesPage extends ManageProfilesMaps {
 
-	private SeleniumUtils mSeleniumUtils;
+	private final SeleniumUtils mSeleniumUtils;
 
 	public ManageProfilesPage() throws Exception {
 		PageFactory.initElements(Driver.getDriver(), this);
@@ -19,28 +19,27 @@ public class ManageProfilesPage extends ManageProfilesMaps {
 	}
 
 	public boolean isDisplayed() throws Exception {
-		return txtProfiles != null;
+		return mSeleniumUtils.elementExists(txtProfiles);
 	}
 		
 	public CreateProfilePage createProfile() throws Exception {
 		btnCreateProfile.click();
 		return new CreateProfilePage();
 	}
+	
+	public boolean profileExists(String profileName) throws Exception {
+		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));
+		return mSeleniumUtils.elementExistsBySelector(profileXpath);
+	}
 
-	public HomePage finish() throws Exception {
-		btnFinish.click();
+	public HomePage launchProfile(String profileName) throws Exception {
+		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));
+		Driver.getDriver().findElement(profileXpath).click();
 		return new HomePage();
 	}
 	
-	public boolean profileExists(String profileName) throws Exception {
-		
-		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));
-		return mSeleniumUtils.elementExists(profileXpath);
-	}
-	
 	public EditProfilePage editProfile(String profileName) throws Exception {
-		
-		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));;
+		By profileXpath = By.xpath(XpathFormatter.formatProfileNameXpath(profileName));
 		Driver.getDriver().findElement(profileXpath).click();
 		Thread.sleep(1000);
 		return new EditProfilePage();
@@ -55,6 +54,9 @@ public class ManageProfilesPage extends ManageProfilesMaps {
 	 	    editProfile(profileName).delete().delete();
 	 	    return this;
 	}
-	
 
+	public HomePage finish() throws Exception {
+		btnFinish.click();
+		return new HomePage();
+	}
 }

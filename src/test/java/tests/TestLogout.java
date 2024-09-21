@@ -15,7 +15,9 @@ public class TestLogout {
     @Before
     public void setUp() throws Exception {
         Driver.startDriver();
-        new LoginPage().login();
+        new LoginPage()
+                .login()
+                .launchProfile("Arthur");
     }
     
     @Test

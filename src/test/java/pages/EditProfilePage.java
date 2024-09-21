@@ -4,15 +4,19 @@ import org.openqa.selenium.support.PageFactory;
 
 import core.Driver;
 import maps.EditProfileMaps;
+import resources.SeleniumUtils;
 
 public class EditProfilePage extends EditProfileMaps {
 
+	private final SeleniumUtils mSeleniumUtils;
+
 	public EditProfilePage() throws Exception {
 		PageFactory.initElements(Driver.getDriver(), this);
+		mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
 	}
 
 	public boolean isDisplayed() throws Exception {
-		return elTitle != null;
+		return mSeleniumUtils.elementExists(elTitle);
 	}
 	
 	public EditProfilePage setName(String name) throws Exception {

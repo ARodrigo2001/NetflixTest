@@ -11,25 +11,26 @@ import org.junit.runners.MethodSorters;
 
 import pages.HomePage;
 import pages.LoginPage;
+import pages.MyListPage;
 import resources.SeleniumUtils;
 import core.Driver;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestMyList {
 
-	private SeleniumUtils mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
 	private final String MOVIE_NAME= "Breaking Bad";
 
     @Before
     public void setUp() throws Exception {
     	Driver.startDriver();
-
-        new LoginPage().login();
+        new LoginPage()
+				.login()
+				.launchProfile("Arthur");
     }
     
     @Test
     public void testAddMovieToList() throws Exception {
-		new HomePage()
+		MyListPage myListPage = new HomePage()
     	.launchHomeTab()
     	.launchSearch()
     	.inputSearchText(MOVIE_NAME)
@@ -37,12 +38,13 @@ public class TestMyList {
     	.addToList()
     	.close()
     	.launchMyListTab();
-    	assertTrue(mSeleniumUtils.movieExists(MOVIE_NAME));
+
+    	assertTrue(myListPage.movieExists(MOVIE_NAME));
     } 
     
     @Test
     public void testRemoveMovieFromList() throws Exception {
-    	new HomePage()
+		MyListPage myListPage = new HomePage()
     	.launchHomeTab()
     	.launchSearch()
     	.inputSearchText(MOVIE_NAME)
@@ -50,7 +52,7 @@ public class TestMyList {
     	.removeFromList()
     	.close()
     	.launchMyListTab();    	
-    	assertFalse(mSeleniumUtils.movieExists(MOVIE_NAME));
+    	assertFalse(myListPage.movieExists(MOVIE_NAME));
     } 
         
     @After

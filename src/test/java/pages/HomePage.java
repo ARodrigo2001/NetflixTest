@@ -8,21 +8,20 @@ import org.openqa.selenium.support.PageFactory;
 
 import core.Driver;
 import maps.HomeMaps;
+import resources.SeleniumUtils;
 import resources.XpathFormatter;
 
 public class HomePage extends HomeMaps {
 
-	protected Actions mActions;
-    protected JavascriptExecutor mJs;
+	private final SeleniumUtils mSeleniumUtils;
 
 	public HomePage() throws Exception {
 		PageFactory.initElements(Driver.getDriver(), this);
-		this.mActions = new Actions(Driver.getDriver());
-        this.mJs = (JavascriptExecutor) Driver.getDriver();
+		mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
 	}
 
 	public boolean isDisplayed() throws Exception {
-		return btnHome != null;
+		return mSeleniumUtils.elementExists(btnHome);
 	}
 
 	public HomePage inputSearchText(String searchText) throws Exception {
@@ -71,16 +70,14 @@ public class HomePage extends HomeMaps {
 	}
 
 	public MovieInfoPage openMovieInfo(String movieName) throws Exception {
-
 		WebElement movieElement = findMovieElement(movieName);
 		movieElement.click();
 		return new MovieInfoPage();
 	}
 
 	public HomePage hoverOnMovie(String movieName) throws Exception {
-
 		WebElement movieElement = findMovieElement(movieName);
-		mActions.moveToElement(movieElement).perform();
+		mSeleniumUtils.moveToElement(movieElement);
 		return this;
 	}
 
@@ -89,7 +86,12 @@ public class HomePage extends HomeMaps {
 		return Driver.getDriver().findElement(By.xpath(xpath));
 	}
 
+	public boolean movieExists(String movieName) throws Exception {
+		By movieXpath = By.xpath(XpathFormatter.formatMovieXpath(movieName));
+		return mSeleniumUtils.elementExistsBySelector(movieXpath);
+	}
+
 	public boolean IsMovieNotFoundAlertDisplayed() throws Exception {
-		return txtMovieNotFound != null;
+		return mSeleniumUtils.elementExists(txtMovieNotFound);
 	}
 }

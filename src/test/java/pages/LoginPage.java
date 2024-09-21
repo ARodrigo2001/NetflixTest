@@ -5,19 +5,24 @@ import org.openqa.selenium.support.PageFactory;
 import core.Driver;
 import maps.LoginMaps;
 import resources.Credentials;
+import resources.SeleniumUtils;
 
 public class LoginPage extends LoginMaps {
 
+    private final SeleniumUtils mSeleniumUtils;
+
     public LoginPage() throws Exception {
         PageFactory.initElements(Driver.getDriver(), this);
+        mSeleniumUtils = new SeleniumUtils(Driver.getDriver());
+
         btnCloseCookiesDialog.click();
     }
     
     public boolean isDisplayed() throws Exception {
-    	return inpEmail != null;
+    	return mSeleniumUtils.elementExists(inpEmail);
     }
 
-    public HomePage login() throws Exception {
+    public ManageProfilesPage login() throws Exception {
     	
     	Credentials credentials = new Credentials();
     	    	
@@ -26,7 +31,7 @@ public class LoginPage extends LoginMaps {
     	.tapLoginWithValidCredentials();
     }
     
-    public LoginPage setEmail(String email) throws Exception {    	
+    public LoginPage setEmail(String email) throws Exception {
      	inpEmail.sendKeys(email);    	
     	return this;
     }
@@ -36,9 +41,9 @@ public class LoginPage extends LoginMaps {
     	return this;
     }
     
-    public HomePage tapLoginWithValidCredentials() throws Exception {
+    public ManageProfilesPage tapLoginWithValidCredentials() throws Exception {
     	btnLogin.click();
-    	return new HomePage();
+    	return new ManageProfilesPage();
     }
     
     public LoginPage tapLoginWithInvalidCredentials() throws Exception {
@@ -47,18 +52,18 @@ public class LoginPage extends LoginMaps {
     }
     
     public boolean IsEmptyEmailAlertDisplayed() throws Exception {
-    	    return alertEmptyEmail != null;
+    	    return mSeleniumUtils.elementExists(alertEmptyEmail);
     }
     
     public boolean IsEmptyPasswordAlertDisplayed() throws Exception {
-	    return alertEmptyPassword != null;
+	    return mSeleniumUtils.elementExists(alertEmptyPassword);
     }
     
     public boolean IsInvalidEmailAlertDisplayed() throws Exception {
-	    return alertInvalidEmail != null;
+	    return mSeleniumUtils.elementExists(alertInvalidEmail);
     }
     
     public boolean IsInvalidPasswordAlertDisplayed() throws Exception {
-	    return alertInvalidPassword != null;
+	    return mSeleniumUtils.elementExists(alertInvalidPassword);
     }
 }
