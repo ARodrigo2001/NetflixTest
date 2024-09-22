@@ -40,7 +40,7 @@ public class TestLogin {
     	assertTrue(loginPage.IsEmptyPasswordAlertDisplayed());
     }
     
-    @Test
+    @Test()
     public void testLoginWithInvalidEmail() throws Exception {
     	LoginPage loginPage = new LoginPage()
     			.setEmail(mCredentials.getInvalidEmail())

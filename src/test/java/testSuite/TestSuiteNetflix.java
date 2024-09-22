@@ -18,7 +18,6 @@ import tests.TestProfile;
     TestMyList.class,
     TestNavigation.class,
     TestProfile.class
-   
 })
 public class TestSuiteNetflix {
 }
